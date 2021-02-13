@@ -1,9 +1,10 @@
-import Reservation from './pages/reservation/Reservation';
+import Home from './pages/home/Home';
+import '../styles/scss/style.scss';
 
 function App() {
   return (
     <div className="App">
-      <Reservation />
+      <Home />
     </div>
   );
 }

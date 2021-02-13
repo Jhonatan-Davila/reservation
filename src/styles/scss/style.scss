@@ -1,0 +1,41 @@
+@import '~react-widgets/dist/css/react-widgets.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+ 
+.home {
+  .tab-link {
+    font-size: 20px;
+    color: black;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: white;
+    &:hover {
+      color: #2196f3;
+      border-bottom: 3px solid #2196f3;
+    }
+  }
+  .active {
+    color: #2196f3;
+    border-bottom: 3px solid #2196f3;
+  }
+  .reservation {
+    background-color: grey;
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      .add-reservation {
+        background-color: #2196f3;
+        color: white;
+        font-size: 16px;
+        padding: 5px 10px;
+        border: none;
+        outline: none;
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}
