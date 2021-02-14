@@ -1,6 +1,11 @@
 @import '~react-widgets/dist/css/react-widgets.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
- 
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/timeline/main.css';
+@import '~@fullcalendar/resource-timeline/main.css';
+
+@import './variables';
+
 .home {
   .tab-link {
     font-size: 20px;
@@ -10,23 +15,32 @@
     outline: none;
     background-color: white;
     &:hover {
-      color: #2196f3;
-      border-bottom: 3px solid #2196f3;
+      color: $lightblue;
+      border-bottom: 3px solid $lightblue;
     }
   }
   .active {
-    color: #2196f3;
-    border-bottom: 3px solid #2196f3;
+    color: $lightblue;
+    border-bottom: 3px solid $lightblue;
   }
   .reservation {
-    background-color: grey;
+    background-color: $lightgrey;
     &-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
-      .add-reservation {
-        background-color: #2196f3;
+      padding: 10px 20px;
+      .select-date {
+        font-size: 20px;
+        i:hover {
+          color: $lightblue;
+        }
+        span {
+          margin: 0 10px;
+        }
+      }
+      .btn-add {
+        background-color: $lightblue;
         color: white;
         font-size: 16px;
         padding: 5px 10px;
@@ -37,5 +51,16 @@
         }
       }
     }
+    &-content {
+      padding: 7px;
+    }
   }
+}
+
+.css-fkkwmy {
+  display: block !important;
+}
+
+.fc-widget-content {
+  height: 80px;
 }

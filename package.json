@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fullcalendar/react": "^5.5.0",
-    "@fullcalendar/resource-timeline": "^5.5.0",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "@fullcalendar/react": "4.1.0",
+    "@fullcalendar/resource-timeline": "4.1.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",

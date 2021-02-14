@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import {Modal, ModalBody} from 'react-bootstrap';
 import { DropdownList } from 'react-widgets';
 
-const AddReservation = ({open, onCloseModal}) => {
+const AddReservationModal = ({open, onCloseModal}) => {
 
   const handleClose = useCallback(() => {
     onCloseModal(false);
@@ -35,4 +35,4 @@ const AddReservation = ({open, onCloseModal}) => {
   );
 }
 
-export default AddReservation;
+export default AddReservationModal;
