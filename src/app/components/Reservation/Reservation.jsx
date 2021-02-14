@@ -2,11 +2,18 @@ import React, {useState, useCallback, useEffect} from 'react';
 
 import AddReservationModal from './AddReservationModal';
 import ReservationContent from './ReservationContent';
-import {getLongDateFormat, handleDays} from '../../../utils/commonFunc';
+import {getLongDateFormat} from '../../../utils/commonFunc';
 
-const Reservation = () => {
+import Moment from 'moment';
+import momentLocalizer from 'react-widgets-moment';
+
+Moment.locale('en');
+momentLocalizer();
+
+const Reservation = ({resources, events}) => {
   const [open, setOpen] = useState(false);
   const [selDate, setSelDate] = useState(new Date());
+  const calendarRef = React.createRef();
 
   const handleClickAdd = useCallback(() => {
     setOpen(true);
@@ -14,11 +21,13 @@ const Reservation = () => {
 
   const setPrevDate = useCallback(() => {
     setSelDate(selDate.decDays(1));
-  }, [selDate]);
+    calendarRef.current.getApi().prev();
+  }, [selDate, calendarRef]);
 
   const setNextDate = useCallback(() => {
     setSelDate(selDate.incDays(1));
-  }, [selDate]);
+    calendarRef.current.getApi().next();
+  }, [selDate, calendarRef]);
 
   useEffect(() => {
     Date.prototype.incDays = function(days) {
@@ -43,7 +52,17 @@ const Reservation = () => {
         </div>
         <button className="btn-add" onClick={handleClickAdd}>+Add Reservation</button>
       </div>
-      <ReservationContent selDate={selDate}/>
+      <ReservationContent selDate={selDate} resources={resources} events={events} calendarRef={calendarRef}/>
+      <div className="reservation-bottom">
+        <div className="reserve-category">
+          <div className="reserve-category-circle other" />
+          <div>Reserved by others</div>
+        </div> | 
+        <div className="reserve-category">
+          <div className="reserve-category-circle me" />
+          <div>Reserved by me</div>
+        </div>
+      </div>
       <AddReservationModal
         open={open}
         onCloseModal={setOpen}

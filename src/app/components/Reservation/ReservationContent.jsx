@@ -3,13 +3,9 @@ import FullCalendar from '@fullcalendar/react';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
 import ResourceItem from './ResourceItem';
+import EventItem, {eventNewDiv} from './EventItem'
 
-import resources from '../../../@fake-db/db/resources';
-import events from '../../../@fake-db/db/events';
-
-const ReservationContent = ({selDate}) => {
-  const calendarRef = useRef(null);
-
+const ReservationContent = ({selDate, resources, events, calendarRef}) => {
   return (
     <div className="reservation-content">
       <FullCalendar
@@ -20,11 +16,12 @@ const ReservationContent = ({selDate}) => {
         schedulerLicenseKey={'GPL-My-Project-Is-Open-Source'}
         header={{ left: '', right: '' }}
         events={events}
+        eventRender={eventNewDiv}
         resourceLabelText={'Device/Time'}
         resourceAreaWidth={'15%'}
         resources={resources}
         resourceRender={ResourceItem}
-        height={600}
+        height={703}
         slotWidth={60}
         slotDuration={'00:30:00'}
         ref={calendarRef} 

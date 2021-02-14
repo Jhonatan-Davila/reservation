@@ -22,14 +22,5 @@ const ResourceItemDetail = ({ ...props }) => (
 );
 
 const StyledResourceItem = styled("div")`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  white-space: normal;
   padding: 4px;
-
-  img {
-    height: 44px;
-    margin-right: 4px;
-  }
 `;
