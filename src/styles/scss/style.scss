@@ -1,4 +1,4 @@
-@import '~react-widgets/dist/css/react-widgets.css';
+@import '~primereact/resources/primereact.min.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/timeline/main.css';
@@ -32,11 +32,17 @@
       padding: 10px 20px;
       .select-date {
         font-size: 20px;
+        display: flex;
+        align-items: center;
         i:hover {
+          cursor: pointer;
           color: $lightblue;
         }
-        span {
-          margin: 0 10px;
+        i:first-child {
+          margin-right: 10px; 
+        }
+        i:last-child {
+          margin-left: 10px;
         }
       }
       .btn-add {

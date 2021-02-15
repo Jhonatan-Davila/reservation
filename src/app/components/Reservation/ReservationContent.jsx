@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
@@ -6,6 +6,7 @@ import ResourceItem from './ResourceItem';
 import EventItem, {eventNewDiv} from './EventItem'
 
 const ReservationContent = ({selDate, resources, events, calendarRef}) => {
+  console.log(selDate);
   return (
     <div className="reservation-content">
       <FullCalendar

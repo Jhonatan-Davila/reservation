@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Modal, ModalBody} from 'react-bootstrap';
-import { DropdownList, DateTimePicker } from 'react-widgets';
+import { Dropdown } from 'primereact/dropdown';
+import { Calendar } from 'primereact/calendar';
 
 import * as actions from '../../store/actions';
 
@@ -25,18 +26,6 @@ const AddReservationModal = ({open, onCloseModal}) => {
     return result;
   }, [resources]);
 
-  const handleDevice = useCallback((value) => {
-    setDeviceName(value);
-  }, []);
-
-  const handleStartTime = useCallback((value) => {
-    setStartTime(new Date(value));
-  }, []);
-
-  const handleEndTime = useCallback((value) => {
-    setEndTime(new Date(value));
-  }, []);
-
   const handleCreate = useCallback(() => {
     dispatch(actions.addEvent({
       useId: 1,
@@ -58,24 +47,24 @@ const AddReservationModal = ({open, onCloseModal}) => {
       <ModalBody>
         <div className="item-container">
           <span>Device</span>
-          <DropdownList
-            data={deviceNames}
-            defaultValue={deviceNames[0]}
-            onChange={value => handleDevice(value)}
+          <Dropdown
+            options={deviceNames}
+            value={deviceName}
+            onChange={value => setDeviceName(value)}
           />
         </div>
         <div className="item-container">
           <span>Start Time</span>
-          <DateTimePicker
+          <Calendar
             value={startTime}
-            onChange={value => handleStartTime(value)}
+            onChange={value => setStartTime(value)}
           />
         </div>
         <div className="item-container">
           <span>End Time</span>
-          <DateTimePicker
+          <Calendar
             value={endTime}
-            onChange={value => handleEndTime(value)}
+            onChange={value => setEndTime(value)}
           />
         </div>
         <button 
