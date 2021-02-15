@@ -3,8 +3,6 @@ import React, {useState, useCallback, useEffect} from 'react';
 import AddReservationModal from './AddReservationModal';
 import ReservationContent from './ReservationContent';
 import { Calendar } from 'primereact/calendar';
-import { addLocale } from 'primereact/api';
-import 'primeflex/primeflex.css';
 
 const Reservation = ({resources, events}) => {
   const [open, setOpen] = useState(false);
@@ -26,17 +24,6 @@ const Reservation = ({resources, events}) => {
   }, [selDate, calendarRef]);
 
   useEffect(() => {
-    addLocale('es', {
-      firstDayOfWeek: 1,
-      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-      today: 'Hoy',
-      clear: 'Claro'
-    });
-
     Date.prototype.incDays = function(days) {
       let date = new Date(this.valueOf());
       date.setDate(date.getDate() + days);
@@ -57,6 +44,7 @@ const Reservation = ({resources, events}) => {
           <Calendar
             value={selDate}
             onChange={e => setSelDate(e.value)}
+            readOnlyInput
           />
           <i className="fas fa-chevron-right" onClick={setNextDate}></i>
         </div>

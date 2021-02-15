@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Modal, ModalBody} from 'react-bootstrap';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 
@@ -10,6 +9,7 @@ const AddReservationModal = ({open, onCloseModal}) => {
   const [deviceName, setDeviceName] = useState('');
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
+  const [isEnableCreate, setEnableCreate] = useState(false);
 
   const resources = useSelector(state => state.resource);
   const dispatch = useDispatch();
@@ -36,43 +36,69 @@ const AddReservationModal = ({open, onCloseModal}) => {
     handleClose();
   }, [deviceName, startTime, endTime]);
 
+  const addMinuteValue = useMemo(() => {
+    return new Date(startTime.getTime() + 30 * 60000)
+  }, [startTime]);
+
+  useEffect(() => {
+    deviceName ? setEnableCreate(true) : setEnableCreate(false)
+  }, [deviceName]);
+  
+  if(!open)
+    return null;
+
   return (
-    <Modal
-      show={open}
-      onHide={handleClose}
-      dialogClassName="modal-50w"
-      aria-labelledby="add-reservation-modal"
-      centered
-    >
-      <ModalBody>
-        <div className="item-container">
-          <span>Device</span>
-          <Dropdown
-            options={deviceNames}
-            value={deviceName}
-            onChange={value => setDeviceName(value)}
-          />
+    <div className="modal">
+      <div className="modal-content">
+        <div className="modal-body">
+          <div className="p-fluid">
+            <div className="modal-item">
+              <label htmlFor="device">Device</label>
+              <Dropdown
+                id="device"
+                options={deviceNames}
+                value={deviceName}
+                onChange={e => setDeviceName(e.value)}
+                placeholder="Select a Device"
+              />
+            </div>
+            <div className="modal-item">
+              <label htmlFor="start_time">Start Time</label>
+              <Calendar
+                id="start_time"
+                value={startTime}
+                minDate={new Date()}
+                onChange={e => setStartTime(e.value)}
+                readOnlyInput
+                showTime
+              />
+            </div>
+            <div className="modal-item">
+              <label htmlFor="end_time">End Time</label>
+              <Calendar
+                id="end_time"
+                value={addMinuteValue.getTime() > endTime.getTime() ? addMinuteValue : endTime}
+                minDate={addMinuteValue}
+                onChange={e => setEndTime(e.value)}
+                readOnlyInput
+                showTime
+              />
+            </div>
+          </div>
+          <div className="btn-group">
+            <button 
+              className="btn-create"
+              onClick={handleCreate}
+              disabled={isEnableCreate ? false : true}
+            >Create</button>
+            <button
+              className="btn-cancel"
+              onClick={handleClose}
+            >Cancel</button>
+          </div>
         </div>
-        <div className="item-container">
-          <span>Start Time</span>
-          <Calendar
-            value={startTime}
-            onChange={value => setStartTime(value)}
-          />
-        </div>
-        <div className="item-container">
-          <span>End Time</span>
-          <Calendar
-            value={endTime}
-            onChange={value => setEndTime(value)}
-          />
-        </div>
-        <button 
-          className="btn-create"
-          onClick={handleCreate}
-        >Create</button>
-      </ModalBody>
-    </Modal>
+      </div>
+    </div>
   );
 }
 

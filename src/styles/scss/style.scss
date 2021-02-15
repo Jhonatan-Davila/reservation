@@ -1,6 +1,9 @@
-@import '~primereact/resources/primereact.min.css';
+// @import '~primeicons/primeicons.css';
+@import '~primereact/resources/themes/saga-blue/theme.css';
+@import '~primereact/resources/primereact.css';
+@import '~primeflex/primeflex.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
-@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/common/main.css';
 @import '~@fullcalendar/timeline/main.css';
 @import '~@fullcalendar/resource-timeline/main.css';
 
@@ -91,16 +94,51 @@
   }
 }
 
-.modal-content {
-  .btn-create {
-    margin: 10px 0;
-    font-size: 20px;
-    background-color: $lightblue;
-    outline: none;
-    border: none;
-    &:hover {
-      color: white;
-      cursor: pointer;
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .modal-content {
+    width: 340px;
+    background-color: white;
+    .modal-body {
+      padding: 10px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      .modal-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        label {
+          width: 25%;
+        }
+      }
+      .btn-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+          margin: 10px 0;
+          font-size: 20px;
+          background-color: $lightblue;
+          outline: none;
+          border: none;
+          &:hover(:not(:disabled)) {
+            color: white;
+            cursor: pointer;
+          }
+          &:first-child {
+            margin-right: 20px;
+          }
+        }
+      }
     }
   }
 }
@@ -109,19 +147,40 @@
   display: block !important;
 }
 
-.fc-widget-content {
+.fc-resource {
   height: 80px;
 }
 
-.fc-ltr .fc-timeline-event {
-  padding: 0;
-  border: none;
+.fc .fc-timeline-lane-frame {
+  height: 80px !important;
 }
 
-.fc-head {
+.fc-resource .fc-datagrid-cell-frame {
+  height: 80px !important;
+}
+
+.fc .fc-datagrid-header .fc-datagrid-cell-frame {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.fc .fc-timeline-header-row-chrono .fc-timeline-slot-frame {
+  justify-content: center !important;
+}
+
+.fc-direction-ltr .fc-timeline-event {
+  padding: 0;
+  border: none;
+  .fc-event-end {
+    border: none !important;
+  }
+}
+
+.fc-scrollgrid-section-header {
   background-color: $calhead;
 }
 
-.fc-body {
+.fc-scrollgrid-section-body {
   background-color: $calbody;
 }

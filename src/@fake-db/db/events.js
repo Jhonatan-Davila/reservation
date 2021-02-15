@@ -5,8 +5,8 @@ const eventDB = {
     {
       resourceId: 1,
       userId: 1,
-      start: new Date(2021, 1, 14, 10, 0, 0),
-      end: new Date(2021, 1, 14, 11, 30, 0)
+      start: new Date(2021, 1, 15, 10, 0, 0),
+      end: new Date(2021, 1, 15, 11, 30, 0)
     },
     {
       resourceId: 2,

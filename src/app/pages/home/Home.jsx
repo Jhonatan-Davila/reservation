@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(actions.getEvents());
     dispatch(actions.getResources());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="home">

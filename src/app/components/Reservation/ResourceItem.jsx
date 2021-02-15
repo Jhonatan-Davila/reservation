@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import styled from "@emotion/styled";
 
 const ResourceItem = ({ resource, el }) => {
@@ -10,8 +9,7 @@ const ResourceItem = ({ resource, el }) => {
       <div>{resource._resource.extendedProps.content}</div>
     </ResourceItemDetail>
   );
-  ReactDOM.render(content, el);
-  return el;
+  return content
 };
 
 export default ResourceItem;
