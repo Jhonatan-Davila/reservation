@@ -6,14 +6,13 @@ import ResourceItem from './ResourceItem';
 import EventContent from './EventItem'
 
 const ReservationContent = ({selDate, resources, events, calendarRef}) => {
-  console.log(selDate.getFullYear(), selDate.getMonth(), selDate.getDate());
   return (
     <div className="reservation-content">
       <FullCalendar
         locale='en'
         plugins={[ resourceTimelinePlugin ]}
         initialView='resourceTimeline'
-        initialDate={new Date(selDate.getFullYear(), selDate.getMonth(), selDate.getDate())}
+        initialDate={selDate}
         schedulerLicenseKey={'Reservation-Project'}
         headerToolbar={false}
         events={events}

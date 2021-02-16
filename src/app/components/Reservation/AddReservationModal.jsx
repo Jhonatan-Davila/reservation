@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
@@ -11,8 +11,10 @@ const AddReservationModal = ({open, onCloseModal}) => {
   const [startTime, setStartTime] = useState(initTimeToHalf(new Date()));
   const [endTime, setEndTime] = useState(initTimeToHalf(new Date()));
   const [isEnableCreate, setEnableCreate] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const resources = useSelector(state => state.resource);
+  const events = useSelector(state => state.event);
   const dispatch = useDispatch();
 
   const handleClose = useCallback(() => {
@@ -20,6 +22,8 @@ const AddReservationModal = ({open, onCloseModal}) => {
     setDeviceName('');
     setStartTime(initTimeToHalf(new Date()));
     setEndTime(initTimeToHalf(new Date()));
+    setErrorMsg('');
+    setEnableCreate(false);
   }, []);
 
   const deviceNames = useMemo(() => {
@@ -31,6 +35,19 @@ const AddReservationModal = ({open, onCloseModal}) => {
   }, [resources]);
 
   const handleCreate = useCallback(() => {
+    for(let i = 0; i < events.length; i++) {
+      const id = events[i].resourceId - 1;
+      if(resources[id].title === deviceName) {
+        if((startTime.getTime() >= new Date(events[i].start).getTime() && startTime.getTime() <= new Date(events[i].end).getTime()
+          || endTime.getTime() >= new Date(events[i].start).getTime() && endTime.getTime() <= new Date(events[i].end).getTime())
+          && events[i].userId === 1) {
+          setEnableCreate(false);
+          setErrorMsg('It was already reserved');
+          return;
+        }
+      }
+    };
+
     dispatch(actions.addEvent({
       userId: 1,
       resourceId: deviceNames.indexOf(deviceName) + 1,
@@ -38,24 +55,33 @@ const AddReservationModal = ({open, onCloseModal}) => {
       end: endTime
     }));
     handleClose();
-  }, [deviceName, startTime, endTime]);
+  }, [deviceName, startTime, endTime, resources, events]);
 
   const addMinutesToStartTime = useMemo(() => {
     return addMinutes(startTime);
   }, [startTime]);
 
   const handleChangeStartTime = useCallback((value) => {
+    if(deviceName) setEnableCreate(true);
     setStartTime(changeTimeToHalf(value));
-  }, []);
+    setErrorMsg('');
+  }, [deviceName]);
 
   const handleChangeEndTime = useCallback((value) => {
+    if(deviceName) setEnableCreate(true);
     setEndTime(changeTimeToHalf(value));
-  }, []);
+    setErrorMsg('');
+  }, [deviceName]);
 
   useEffect(() => {
     deviceName ? setEnableCreate(true) : setEnableCreate(false)
   }, [deviceName]);
   
+  useEffect(() => {
+    if(addMinutesToStartTime.getTime() > endTime.getTime())
+      setEndTime(addMinutesToStartTime);
+  }, [startTime]);
+
   if(!open)
     return null;
 
@@ -89,13 +115,19 @@ const AddReservationModal = ({open, onCloseModal}) => {
               <label htmlFor="end_time">End Time</label>
               <Calendar
                 id="end_time"
-                value={addMinutesToStartTime.getTime() > endTime.getTime() ? addMinutesToStartTime : endTime}
+                value={endTime}
                 minDate={addMinutesToStartTime}
                 onChange={e => handleChangeEndTime(e.value)}
                 readOnlyInput
                 showTime
               />
             </div>
+          </div>
+          <div className="error-msg-wrapper">
+            {
+              errorMsg &&
+              <p className="error-msg">{errorMsg}</p>
+            }
           </div>
           <div className="btn-group">
             <button 

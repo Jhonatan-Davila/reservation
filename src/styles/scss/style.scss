@@ -120,6 +120,11 @@
           width: 25%;
         }
       }
+      .error-msg-wrapper {
+        .error-msg {
+          color: red;
+        }
+      }
       .btn-group {
         display: flex;
         align-items: center;

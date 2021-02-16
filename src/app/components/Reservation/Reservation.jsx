@@ -23,6 +23,11 @@ const Reservation = ({resources, events}) => {
     calendarRef.current.getApi().next();
   }, [selDate, calendarRef]);
 
+  const handleSelDate = useCallback((value) => {
+    setSelDate(value);
+    calendarRef.current.getApi().gotoDate(value);
+  }, [calendarRef]);
+
   useEffect(() => {
     Date.prototype.incDays = function(days) {
       let date = new Date(this.valueOf());
@@ -43,7 +48,7 @@ const Reservation = ({resources, events}) => {
           <i className="fas fa-chevron-left" onClick={setPrevDate}></i>
           <Calendar
             value={selDate}
-            onChange={e => setSelDate(e.value)}
+            onChange={e => handleSelDate(e.value)}
             readOnlyInput
           />
           <i className="fas fa-chevron-right" onClick={setNextDate}></i>

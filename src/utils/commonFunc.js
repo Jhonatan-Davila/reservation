@@ -23,7 +23,7 @@ export function changeTimeToHalf(date) {
   if(date.getMinutes() === 1 || date.getMinutes() === 59) {
     date.setMinutes(30);
   }
-  else {
+  else if(date.getMinutes() === 29 || date.getMinutes() === 31) {
     date.setMinutes(0);
   }
   return new Date(date);
