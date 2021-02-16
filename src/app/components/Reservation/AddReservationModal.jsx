@@ -4,11 +4,12 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 
 import * as actions from '../../store/actions';
+import { addMinutes, initTimeToHalf, changeTimeToHalf, initTimeToZero } from '../../../utils/commonFunc';
 
 const AddReservationModal = ({open, onCloseModal}) => {
   const [deviceName, setDeviceName] = useState('');
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
+  const [startTime, setStartTime] = useState(initTimeToHalf(new Date()));
+  const [endTime, setEndTime] = useState(initTimeToHalf(new Date()));
   const [isEnableCreate, setEnableCreate] = useState(false);
 
   const resources = useSelector(state => state.resource);
@@ -16,6 +17,9 @@ const AddReservationModal = ({open, onCloseModal}) => {
 
   const handleClose = useCallback(() => {
     onCloseModal(false);
+    setDeviceName('');
+    setStartTime(initTimeToHalf(new Date()));
+    setEndTime(initTimeToHalf(new Date()));
   }, []);
 
   const deviceNames = useMemo(() => {
@@ -28,7 +32,7 @@ const AddReservationModal = ({open, onCloseModal}) => {
 
   const handleCreate = useCallback(() => {
     dispatch(actions.addEvent({
-      useId: 1,
+      userId: 1,
       resourceId: deviceNames.indexOf(deviceName) + 1,
       start: startTime,
       end: endTime
@@ -36,9 +40,17 @@ const AddReservationModal = ({open, onCloseModal}) => {
     handleClose();
   }, [deviceName, startTime, endTime]);
 
-  const addMinuteValue = useMemo(() => {
-    return new Date(startTime.getTime() + 30 * 60000)
+  const addMinutesToStartTime = useMemo(() => {
+    return addMinutes(startTime);
   }, [startTime]);
+
+  const handleChangeStartTime = useCallback((value) => {
+    setStartTime(changeTimeToHalf(value));
+  }, []);
+
+  const handleChangeEndTime = useCallback((value) => {
+    setEndTime(changeTimeToHalf(value));
+  }, []);
 
   useEffect(() => {
     deviceName ? setEnableCreate(true) : setEnableCreate(false)
@@ -67,8 +79,8 @@ const AddReservationModal = ({open, onCloseModal}) => {
               <Calendar
                 id="start_time"
                 value={startTime}
-                minDate={new Date()}
-                onChange={e => setStartTime(e.value)}
+                minDate={initTimeToZero(new Date())}
+                onChange={e => handleChangeStartTime(e.value)}
                 readOnlyInput
                 showTime
               />
@@ -77,9 +89,9 @@ const AddReservationModal = ({open, onCloseModal}) => {
               <label htmlFor="end_time">End Time</label>
               <Calendar
                 id="end_time"
-                value={addMinuteValue.getTime() > endTime.getTime() ? addMinuteValue : endTime}
-                minDate={addMinuteValue}
-                onChange={e => setEndTime(e.value)}
+                value={addMinutesToStartTime.getTime() > endTime.getTime() ? addMinutesToStartTime : endTime}
+                minDate={addMinutesToStartTime}
+                onChange={e => handleChangeEndTime(e.value)}
                 readOnlyInput
                 showTime
               />
