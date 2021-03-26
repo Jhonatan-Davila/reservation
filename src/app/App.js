@@ -1,10 +1,17 @@
-import Reservation from './pages/reservation/Reservation';
+import { Provider } from 'react-redux';
+
+import '../@fake-db';
+import Home from './pages/home/Home';
+import store from './store';
+import '../styles/scss/style.scss';
 
 function App() {
   return (
-    <div className="App">
-      <Reservation />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Home />
+      </div>
+    </Provider>
   );
 }
 
